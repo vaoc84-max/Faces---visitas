@@ -244,8 +244,8 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--gray);fon
   <div class="tab on"  onclick="showTab(0)">Equipo completo</div>
   <div class="tab"    onclick="showTab(1)">Mi calendario</div>
   <div class="tab"    onclick="showTab(2)">Estadisticas</div>
-  <div class="tab"    onclick="showTab(3)">Reporte</div>
-  <div class="tab" id="tabAdmin" onclick="showTab(4)">Admin</div>
+  <div class="tab hidden" id="tabReporte" onclick="showTab(3)">Reporte</div>
+  <div class="tab hidden" id="tabAdmin" onclick="showTab(4)">Admin</div>
 </div>
 
 <!-- P0: CONSOLIDATED -->
@@ -500,7 +500,6 @@ var state={
 var JSONBIN_ID='6a2a225bf5f4af5e29dc4c8c';
 var JSONBIN_KEY='$2a$10$XcBamfU1PwaGhbYiejG7lO0Qgz1lzWZO88LPrq6b1UVlkEUBpoLBW';
 var JSONBIN_URL='https://api.jsonbin.io/v3/b/'+JSONBIN_ID;
-var _saving=false;
 
 async function loadState(){
   var ov=document.getElementById('loadingOverlay');
@@ -520,16 +519,25 @@ async function loadState(){
   initLogin();
 }
 
+var _saveTimer=null;
 async function saveState(){
+  // Backup local siempre e inmediato
   try{localStorage.setItem('faces_bk',JSON.stringify({users:state.users,visits:state.visits,agencyComments:state.agencyComments}));}catch(e){}
-  if(_saving)return;
-  _saving=true;
-  setTimeout(async function(){
+  // Enviar a JSONBin con debounce — cancela el timer anterior y espera 1s desde el ultimo cambio
+  if(_saveTimer) clearTimeout(_saveTimer);
+  _saveTimer=setTimeout(async function(){
     try{
-      await fetch(JSONBIN_URL,{method:'PUT',headers:{'Content-Type':'application/json','X-Access-Key':JSONBIN_KEY},body:JSON.stringify({users:state.users,visits:state.visits,agencyComments:state.agencyComments})});
-    }catch(e){console.warn('Error guardando:',e);}
-    _saving=false;
-  },800);
+      var resp=await fetch(JSONBIN_URL,{
+        method:'PUT',
+        headers:{'Content-Type':'application/json','X-Access-Key':JSONBIN_KEY},
+        body:JSON.stringify({users:state.users,visits:state.visits,agencyComments:state.agencyComments})
+      });
+      if(resp.ok){
+        var btn=document.getElementById('syncBtn');
+        if(btn){btn.style.background='rgba(120,165,141,.5)';setTimeout(function(){btn.style.background='';},1500);}
+      }
+    }catch(e){console.warn('Error guardando en JSONBin:',e);}
+  },1000);
 }
 function getUserColor(uid){var idx=state.users.findIndex(function(u){return u.id===uid;});return UCOLORS[idx%UCOLORS.length];}
 function getUserStruct(code){return STRUCT[code]||{zona:'',zonaCode:'',offices:[]};}
@@ -565,10 +573,10 @@ function initApp(){
   var user=state.users.find(function(u){return u.id===state.currentUser;});
   var st=getUserStruct(user.code);
   document.getElementById('hdrBadge').textContent=user.code+' - '+user.name.split(' ').slice(0,2).join(' ');
-  var isAdmin=ADMIN_CODES.indexOf(user.code)>=0;
+  // Solo JRS ve Admin y Reporte
+  var isAdmin=(user.code==='JRS');
   document.getElementById('tabAdmin').classList.toggle('hidden',!isAdmin);
-  var canReport=['JRS','GN','PE','JRN','JRC'].indexOf(user.code)>=0;
-  document.getElementById('p3').previousElementSibling; // reporte tab always visible for certain roles
+  document.getElementById('tabReporte').classList.toggle('hidden',!isAdmin);
   // populate report selectors
   var rm=document.getElementById('rptMonth');
   rm.innerHTML=MONTHS.map(function(m,i){return '<option value="'+i+'"'+(i===state.currentMonth?' selected':'')+'>'+m+'</option>';}).join('');
