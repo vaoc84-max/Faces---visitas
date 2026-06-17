@@ -438,6 +438,7 @@ var activeFilter='ALL';
 
 // Colores por usuario (15)
 var UCOLORS=['#E4271D','#78A58D','#4f7ec4','#B0906E','#1D9E75','#9b59b6','#e67e22','#16a085','#2980b9','#8e44ad','#c0392b','#27ae60','#d35400','#696667','#2c3e50'];
+function getUserColor(uid){var idx=state.users.findIndex(function(u){return u.id===uid;});return UCOLORS[Math.max(0,idx)%UCOLORS.length];}
 
 // ── ESTRUCTURA REAL Faces Regional Sur ──
 // Cada usuario tiene: zonaCode, zonaLabel, offices (lista de oficinas que administra)
