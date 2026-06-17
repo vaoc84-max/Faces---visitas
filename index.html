@@ -397,29 +397,34 @@ var UCOLORS=['#E4271D','#78A58D','#4f7ec4','#B0906E','#1D9E75','#9b59b6','#e67e2
 // Cada usuario tiene: zonaCode, zonaLabel, offices (lista de oficinas que administra)
 var STRUCT = {
   // Regionales
-  'JRS': {zona:'REGIONAL SUR', zonaCode:'JRS', offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
-  'JRN': {zona:'REGIONAL NORTE', zonaCode:'JRN', offices:['Quito Centro','Amaguana','Cayambe','Quinche','Tumbaco','El Carmen','Flavio Alfaro','Quininde','San Miguel','Santo Domingo']},
-  'JRC': {zona:'REGIONAL COSTA', zonaCode:'JRC', offices:['Base Costa','Pasaje','Pinas','Santa Rosa','La Troncal','Milagro','Naranjal']},
-  'GN':  {zona:'GERENCIA',       zonaCode:'GN',  offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
-  'PE':  {zona:'PRESIDENCIA',    zonaCode:'PE',  offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
+  'JRS': {region:'SUR', zona:'REGIONAL SUR', zonaCode:'JRS', offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
+  'JRN': {region:'NORTE', zona:'REGIONAL NORTE', zonaCode:'JRN', offices:['Quito Centro','Amaguana','Cayambe','Quinche','Tumbaco','El Carmen','Flavio Alfaro','Quininde','San Miguel','Santo Domingo']},
+  'JRC': {region:'COSTA', zona:'REGIONAL COSTA', zonaCode:'JRC', offices:['Base Costa','Pasaje','Pinas','Santa Rosa','La Troncal','Milagro','Naranjal']},
+  'GN':  {region:'FACES', zona:'GERENCIA',       zonaCode:'GN',  offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
+  'PE':  {region:'FACES', zona:'PRESIDENCIA',    zonaCode:'PE',  offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
   // JZ1 LOJA
-  'JZ1': {zona:'ZONA 1 LOJA', zonaCode:'Z1', offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte']},
+  'JZ1': {region:'SUR', zona:'ZONA 1 LOJA', zonaCode:'Z1', offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte']},
   // JZ2 LOJA
-  'JZ2': {zona:'ZONA 2 LOJA', zonaCode:'Z2', offices:['Cariamanga','Catacocha','Catamayo','Celica']},
+  'JZ2': {region:'SUR', zona:'ZONA 2 LOJA', zonaCode:'Z2', offices:['Cariamanga','Catacocha','Catamayo','Celica']},
   // JZ3 ZAMORA
-  'JZ3': {zona:'ZONA 3 ZAMORA', zonaCode:'Z3', offices:['Malacatos','Palanda','Zamora','Zumba']},
+  'JZ3': {region:'SUR', zona:'ZONA 3 ZAMORA', zonaCode:'Z3', offices:['Malacatos','Palanda','Zamora','Zumba']},
   // JZ4..7 genericos por ahora (se asignan desde Admin cuando se ponga nombre real)
   'JZ4': {zona:'ZONA 4', zonaCode:'Z4', offices:[]},
   'JZ5': {zona:'ZONA 5', zonaCode:'Z5', offices:[]},
   'JZ6': {zona:'ZONA 6', zonaCode:'Z6', offices:[]},
   'JZ7': {zona:'ZONA 7', zonaCode:'Z7', offices:[]},
-  'OT1': {zona:'OTROS', zonaCode:'OT', offices:[]},
-  'OT2': {zona:'OTROS', zonaCode:'OT', offices:[]},
-  'OT3': {zona:'OTROS', zonaCode:'OT', offices:[]},
+  'OT1': {region:'', zona:'OTROS', zonaCode:'OT', offices:[]},
+  'OT2': {region:'', zona:'OTROS', zonaCode:'OT', offices:[]},
+  'OT3': {region:'', zona:'OTROS', zonaCode:'OT', offices:[]},
 };
 
 // Todas las oficinas reales
-var ALL_OFFICES = ['Matriz','Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba'];
+var OFFICES_BY_REGION = {
+  'SUR':   ['Matriz','Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba'],
+  'COSTA': ['Base Costa','Pasaje','Pinas','Santa Rosa','La Troncal','Milagro','Naranjal'],
+  'NORTE': ['Quito Centro','Amaguana','Cayambe','Quinche','Tumbaco','El Carmen','Flavio Alfaro','Quininde','San Miguel','Santo Domingo']
+};
+var ALL_OFFICES = ['Matriz','Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba','Base Costa','Pasaje','Pinas','Santa Rosa','La Troncal','Milagro','Naranjal','Quito Centro','Amaguana','Cayambe','Quinche','Tumbaco','El Carmen','Flavio Alfaro','Quininde','San Miguel','Santo Domingo'];
 
 var state={
   users:[
@@ -525,9 +530,16 @@ function buildFilterPills(){
   row.innerHTML+='<div class="fpill'+(activeFilter==='ALL'?' on':'')+'" onclick="setFilter(\'ALL\')">Todos</div>';
   // Zones from users who have offices
   var zones=[
-    {code:'Z1',label:'Zona 1 Loja',color:'#E4271D'},
-    {code:'Z2',label:'Zona 2 Loja',color:'#78A58D'},
-    {code:'Z3',label:'Zona 3 Zamora',color:'#4f7ec4'}
+    {code:'SUR',  label:'Region Sur',  color:'#E4271D'},
+    {code:'COSTA',label:'Region Costa',color:'#78A58D'},
+    {code:'NORTE',label:'Region Norte',color:'#4f7ec4'},
+    {code:'Z1',label:'Z1 Loja',color:'#c0392b'},
+    {code:'Z2',label:'Z2 Loja',color:'#27ae60'},
+    {code:'Z3',label:'Z3 Zamora',color:'#2980b9'},
+    {code:'Z4',label:'Z4 El Oro',color:'#8e44ad'},
+    {code:'Z5',label:'Z5 Guayas',color:'#d35400'},
+    {code:'Z6',label:'Z6 Sierra N.',color:'#16a085'},
+    {code:'Z7',label:'Z7 Costa N.',color:'#696667'}
   ];
   zones.forEach(function(z){
     row.innerHTML+='<div class="fpill'+(activeFilter===z.code?' on':'')+'" onclick="setFilter(\''+z.code+'\')" style="'+(activeFilter===z.code?'background:'+z.color+';border-color:'+z.color+';color:#fff;':'border-color:'+z.color+'30;')+'"><div class="fpill-dot" style="background:'+(activeFilter===z.code?'rgba(255,255,255,.6)':z.color)+';"></div>'+z.label+'</div>';
@@ -594,10 +606,14 @@ function renderCons(){
     // Apply filter
     var filtered=allDV;
     if(activeFilter!=='ALL'){
-      if(activeFilter==='Z1')filtered=allDV.filter(function(dv){return getUserStruct(dv.user.code).zonaCode==='Z1';});
-      else if(activeFilter==='Z2')filtered=allDV.filter(function(dv){return getUserStruct(dv.user.code).zonaCode==='Z2';});
-      else if(activeFilter==='Z3')filtered=allDV.filter(function(dv){return getUserStruct(dv.user.code).zonaCode==='Z3';});
-      else filtered=allDV.filter(function(dv){return dv.visit.agency===activeFilter;});
+      var regionCodes=['SUR','COSTA','NORTE'];
+      if(regionCodes.indexOf(activeFilter)>=0){
+        filtered=allDV.filter(function(dv){return getUserStruct(dv.user.code).region===activeFilter;});
+      } else if(['Z1','Z2','Z3','Z4','Z5','Z6','Z7'].indexOf(activeFilter)>=0){
+        filtered=allDV.filter(function(dv){return getUserStruct(dv.user.code).zonaCode===activeFilter;});
+      } else {
+        filtered=allDV.filter(function(dv){return dv.visit.agency===activeFilter;});
+      }
     }
 
     var MAX=4;
