@@ -133,6 +133,7 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--gray);fon
 .dvc-agency{font-size:13px;font-weight:600;color:var(--red);margin-top:2px;}
 .dvc-detail{font-size:10px;color:#888;margin-top:3px;line-height:1.6;}
 .obs-warn{display:inline-flex;align-items:center;gap:3px;background:#fff3cd;color:#856404;border:.5px solid #ffe69c;border-radius:10px;padding:1px 7px;font-size:9px;font-weight:600;margin-left:6px;}
+.sup-warn{display:inline-flex;align-items:center;gap:3px;background:#fde8e8;color:var(--red);border:.5px solid #f8b4b4;border-radius:10px;padding:1px 7px;font-size:9px;font-weight:600;margin-left:6px;}
 .sup-comment-btn{background:transparent;border:.5px solid var(--light);color:var(--gray);border-radius:6px;padding:4px 10px;font-size:10px;cursor:pointer;margin-top:6px;}
 .sup-comment-btn:hover{border-color:var(--red);color:var(--red);}
 .sup-cmt-box{background:#eef6ff;border:.5px solid #bcdcff;border-radius:6px;padding:8px 10px;margin-top:6px;font-size:11px;color:#1a4a78;}
@@ -444,11 +445,11 @@ function getUserColor(uid){var idx=state.users.findIndex(function(u){return u.id
 // Cada usuario tiene: zonaCode, zonaLabel, offices (lista de oficinas que administra)
 var STRUCT = {
   // Regionales
-  'JRS': {region:'SUR', zona:'REGIONAL SUR', zonaCode:'JRS', offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
+  'JRS': {region:'SUR', zona:'REGIONAL SUR', zonaCode:'JRS', offices:['Matriz','Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
   'JRN': {region:'NORTE', zona:'REGIONAL NORTE', zonaCode:'JRN', offices:['Quito Centro','Amaguana','Cayambe','Quinche','Tumbaco','El Carmen','Flavio Alfaro','Quininde','San Miguel','Santo Domingo']},
   'JRC': {region:'COSTA', zona:'REGIONAL COSTA', zonaCode:'JRC', offices:['Base Costa','Pasaje','Pinas','Santa Rosa','La Troncal','Milagro','Naranjal']},
-  'GN':  {region:'FACES', zona:'GERENCIA',       zonaCode:'GN',  offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
-  'PE':  {region:'FACES', zona:'PRESIDENCIA',    zonaCode:'PE',  offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
+  'GN':  {region:'FACES', zona:'GERENCIA',       zonaCode:'GN',  offices:[]},
+  'PE':  {region:'FACES', zona:'PRESIDENCIA',    zonaCode:'PE',  offices:[]},
   // JZ1 LOJA
   'JZ1': {region:'SUR', zona:'ZONA 1 LOJA', zonaCode:'Z1', offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte']},
   // JZ2 LOJA
@@ -456,10 +457,10 @@ var STRUCT = {
   // JZ3 ZAMORA
   'JZ3': {region:'SUR', zona:'ZONA 3 ZAMORA', zonaCode:'Z3', offices:['Malacatos','Palanda','Zamora','Zumba']},
   // JZ4..7 genericos por ahora (se asignan desde Admin cuando se ponga nombre real)
-  'JZ4': {zona:'ZONA 4', zonaCode:'Z4', offices:[]},
-  'JZ5': {zona:'ZONA 5', zonaCode:'Z5', offices:[]},
-  'JZ6': {zona:'ZONA 6', zonaCode:'Z6', offices:[]},
-  'JZ7': {zona:'ZONA 7', zonaCode:'Z7', offices:[]},
+  'JZ4': {region:'COSTA', zona:'ZONA 4 EL ORO',       zonaCode:'Z4', offices:['Pasaje','Pinas','Santa Rosa']},
+  'JZ5': {region:'COSTA', zona:'ZONA 5 GUAYAS',       zonaCode:'Z5', offices:['La Troncal','Milagro','Naranjal']},
+  'JZ6': {region:'NORTE', zona:'ZONA 6 SIERRA NORTE', zonaCode:'Z6', offices:['Amaguana','Cayambe','Quinche','Tumbaco']},
+  'JZ7': {region:'NORTE', zona:'ZONA 7 COSTA NORTE',  zonaCode:'Z7', offices:['El Carmen','Flavio Alfaro','Quininde','San Miguel','Santo Domingo']},
   'OT1': {region:'', zona:'OTROS', zonaCode:'OT', offices:[]},
   'OT2': {region:'', zona:'OTROS', zonaCode:'OT', offices:[]},
   'OT3': {region:'', zona:'OTROS', zonaCode:'OT', offices:[]},
@@ -482,10 +483,10 @@ var state={
     {id:'u5', name:'Jefe Zonal 1 Loja',     role:'Jefatura Negocios Zona 1',   code:'JZ1', pass:'JZ1'},
     {id:'u6', name:'Jefe Zonal 2 Loja',     role:'Jefatura Negocios Zona 2',   code:'JZ2', pass:'JZ2'},
     {id:'u7', name:'Jefe Zonal 3 Zamora',   role:'Jefatura Negocios Zona 3',   code:'JZ3', pass:'JZ3'},
-    {id:'u8', name:'Jefe Zonal 4',          role:'Jefatura Negocios Zona 4',   code:'JZ4', pass:'JZ4'},
-    {id:'u9', name:'Jefe Zonal 5',          role:'Jefatura Negocios Zona 5',   code:'JZ5', pass:'JZ5'},
-    {id:'u10',name:'Jefe Zonal 6',          role:'Jefatura Negocios Zona 6',   code:'JZ6', pass:'JZ6'},
-    {id:'u11',name:'Jefe Zonal 7',          role:'Jefatura Negocios Zona 7',   code:'JZ7', pass:'JZ7'},
+    {id:'u8', name:'Jefe Zonal 4 El Oro',    role:'Jefatura Negocios Zona 4',   code:'JZ4', pass:'JZ4'},
+    {id:'u9', name:'Jefe Zonal 5 Guayas',    role:'Jefatura Negocios Zona 5',   code:'JZ5', pass:'JZ5'},
+    {id:'u10',name:'Jefe Zonal 6 Sierra Norte',role:'Jefatura Negocios Zona 6', code:'JZ6', pass:'JZ6'},
+    {id:'u11',name:'Jefe Zonal 7 Costa Norte', role:'Jefatura Negocios Zona 7', code:'JZ7', pass:'JZ7'},
     {id:'u12',name:'Colaborador Presidencia',role:'Presidencia Ejecutiva',     code:'PE',  pass:'PE'},
     {id:'u13',name:'Colaborador B',         role:'Otros',                      code:'OT1', pass:'OT1'},
     {id:'u14',name:'Colaborador C',         role:'Otros',                      code:'OT2', pass:'OT2'},
@@ -535,7 +536,9 @@ function getDayVisitCount(uid,y,m,d){return getDayVisits(uid,y,m,d).length;}
 
 function getUserStruct(code){return STRUCT[code]||{zona:'',zonaCode:'',offices:[]};}
 function getUserOffices(code){
-  if(['JRS','GN','PE','CPPV','JRN','JRC'].indexOf(code)>=0) return ALL_OFFICES;
+  // Acceso total: Gerencia, Presidencia, Coordinadora de Proyectos
+  if(['GN','PE','CPPV'].indexOf(code)>=0) return ALL_OFFICES;
+  // Regionales y Zonales: solo su region/zona (definido en STRUCT.offices)
   var s=getUserStruct(code);
   if(s.offices&&s.offices.length>0)return s.offices;
   if(s.region&&OFFICES_BY_REGION[s.region])return OFFICES_BY_REGION[s.region];
@@ -685,8 +688,11 @@ function renderCons(){
       tag.className='vtag';
       tag.style.background=color+'18';
       tag.style.color=color;
-      tag.innerHTML='<div class="vtag-dot" style="background:'+color+';"></div><span class="vtag-code">'+dv.user.code+'</span><span class="vtag-ag">'+dv.visit.agency+'</span>'+(dv.visit.obs?'<span title="Tiene observacion" style="margin-left:2px;">&#9888;</span>':'');
-      tag.title=dv.user.name+' - '+dv.visit.agency;
+      var vKey=dv.user.id+'-'+y+'-'+m+'-'+d+'-'+dv.slot;
+      var hasSupCmt=!!state.agencyComments['VISIT-'+vKey];
+      var icons=(dv.visit.obs?'<span title="Tiene observacion" style="margin-left:2px;">&#9888;</span>':'')+(hasSupCmt?'<span title="Comentario de Presidencia/Regional" style="margin-left:2px;color:var(--red);">&#9888;</span>':'');
+      tag.innerHTML='<div class="vtag-dot" style="background:'+color+';"></div><span class="vtag-code">'+dv.user.code+'</span><span class="vtag-ag">'+dv.visit.agency+'</span>'+icons;
+      tag.title=dv.user.name+' - '+dv.visit.agency+(hasSupCmt?' (con comentario)':'');
       (function(day){tag.onclick=function(e){e.stopPropagation();openDayModal(day);};})(d);
       cell.appendChild(tag);
     });
@@ -728,9 +734,9 @@ function openDayModal(d){
       if(dv.visit.res)detail+='<b>Resultado:</b> '+dv.visit.res+'<br>';
       if(dv.visit.obs)detail+='<b>Obs:</b> '+dv.visit.obs;
       if(dv.visit.nextDate)detail+='<br><span style="background:#fff0f0;border:.5px solid #fca5a5;border-radius:4px;padding:2px 6px;font-size:10px;">Prox. visita: '+dv.visit.nextDate+(dv.visit.nextObj?' - '+dv.visit.nextObj:'')+'</span>';
-      var warnIcon=dv.visit.obs?'<span class="obs-warn">&#9888; Con observacion</span>':'';
       var visitKey=dv.user.id+'-'+y+'-'+m+'-'+d+'-'+dv.slot;
       var supCmt=state.agencyComments['VISIT-'+visitKey];
+      var warnIcon=(dv.visit.obs?'<span class="obs-warn">&#9888; Con observacion</span>':'')+(supCmt?'<span class="sup-warn">&#9888; Comentario Presidencia/Regional</span>':'');
       var supCmtHtml='';
       if(supCmt){var who=state.users.find(function(u){return u.id===supCmt.userId;});supCmtHtml='<div class="sup-cmt-box"><b>Comentario de '+(who?who.name:'')+':</b><br>'+supCmt.text+'</div>';}
       var commentSection='';
