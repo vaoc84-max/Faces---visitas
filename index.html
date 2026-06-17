@@ -115,17 +115,6 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--gray);fon
 .btn-p{background:var(--red);color:#fff;}
 .btn-d{background:#fef2f2;border:.5px solid #fca5a5;color:#c00;}
 .cmt-box{background:#fffbe6;border:.5px solid #f0d060;border-radius:6px;padding:8px 10px;margin-bottom:10px;font-size:11px;color:#7a6000;}
-/* COMMITMENTS SECTION */
-.section-divider{display:flex;align-items:center;gap:8px;margin:14px 0 10px;font-size:10px;color:#aaa;font-weight:500;letter-spacing:.5px;text-transform:uppercase;}
-.section-divider::before,.section-divider::after{content:'';flex:1;height:.5px;background:var(--light);}
-.commit-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
-.commit-card{background:#fafafa;border:.5px solid var(--light);border-radius:8px;padding:10px;}
-.commit-card-title{font-size:10px;font-weight:500;color:var(--red);margin-bottom:6px;display:flex;align-items:center;gap:4px;}
-.next-visit-box{background:#fff8f8;border:.5px solid #fca5a5;border-radius:8px;padding:12px;margin-bottom:10px;}
-.next-visit-title{font-size:11px;font-weight:600;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:5px;}
-.date-input{width:100%;border:.5px solid var(--light);border-radius:6px;padding:6px 10px;font-family:'Poppins',sans-serif;font-size:12px;color:var(--gray);margin-bottom:0;}
-.date-input:focus{outline:none;border-color:var(--red);}
-.schedule-hint{font-size:10px;color:#aaa;margin-top:5px;}
 
 /* DAY DETAIL */
 .dvc{display:flex;gap:12px;padding:10px 0;border-bottom:.5px solid #f5f5f5;}
@@ -209,9 +198,7 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--gray);fon
   </div>
   <div style="font-size:11px;color:rgba(255,255,255,.6);margin-top:20px;">Cargando datos del equipo...</div>
 </div>
-<style>
-@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-</style>
+<style>@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}</style>
 
 <div id="loginScreen">
   <div class="login-card">
@@ -237,15 +224,15 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--gray);fon
     <div class="month-lbl" id="monthLbl">-</div>
     <button class="nav-arr" onclick="nextMonth()">&#8250;</button>
     <button class="notif-bell" id="notifBell" onclick="toggleNotif()">&#128276;<span class="notif-dot" id="notifDot"></span></button>
-    <button class="hdr-btn" id="syncBtn" onclick="syncNow()" title="Sincronizar datos del equipo">&#8635; Sync</button><button class="hdr-btn" onclick="doLogout()">Salir</button>
+    <button class="hdr-btn" onclick="doLogout()">Salir</button>
   </div>
 </div>
 <div class="tabs">
   <div class="tab on"  onclick="showTab(0)">Equipo completo</div>
   <div class="tab"    onclick="showTab(1)">Mi calendario</div>
   <div class="tab"    onclick="showTab(2)">Estadisticas</div>
-  <div class="tab hidden" id="tabReporte" onclick="showTab(3)">Reporte</div>
-  <div class="tab hidden" id="tabAdmin" onclick="showTab(4)">Admin</div>
+  <div class="tab"    onclick="showTab(3)">Reporte</div>
+  <div class="tab" id="tabAdmin" onclick="showTab(4)">Admin</div>
 </div>
 
 <!-- P0: CONSOLIDATED -->
@@ -360,39 +347,12 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--gray);fon
     <div id="vmForm">
       <div class="flabel">Oficina / Agencia</div>
       <select id="vmAgSel" class="finput"></select>
-
-      <div class="section-divider">Planificacion de la visita</div>
-      <div class="flabel">Objetivo de la visita</div>
-      <textarea id="vmObj" class="finput" rows="2" placeholder="Que objetivo tiene esta visita?"></textarea>
-      <div class="flabel">Situacion actual</div>
-      <textarea id="vmSit" class="finput" rows="2" placeholder="Como esta actualmente la oficina / equipo?"></textarea>
-      <div class="flabel">Resultado esperado</div>
-      <textarea id="vmResEsp" class="finput" rows="2" placeholder="Que resultado esperas lograr con esta visita?"></textarea>
-
-      <div class="section-divider">Compromisos adquiridos</div>
-      <div class="commit-grid">
-        <div class="commit-card">
-          <div class="commit-card-title">Compromisos del equipo</div>
-          <textarea id="vmCompEq" class="finput" rows="3" placeholder="Compromisos asumidos por el equipo de la oficina..."></textarea>
-        </div>
-        <div class="commit-card">
-          <div class="commit-card-title">Mis compromisos</div>
-          <textarea id="vmCompMi" class="finput" rows="3" placeholder="Compromisos que yo asumo como JZ / JR..."></textarea>
-        </div>
-      </div>
+      <div class="flabel">Objetivo</div>
+      <textarea id="vmObj" class="finput" rows="2" placeholder="Objetivo de la visita..."></textarea>
       <div class="flabel">Resultado obtenido</div>
-      <textarea id="vmRes" class="finput" rows="2" placeholder="Que resultado obtuviste al final de la visita?"></textarea>
+      <textarea id="vmRes" class="finput" rows="2" placeholder="Resultado..."></textarea>
       <div class="flabel">Observaciones</div>
       <textarea id="vmObs" class="finput" rows="2" placeholder="Notas adicionales..."></textarea>
-
-      <div class="next-visit-box">
-        <div class="next-visit-title">Proxima visita</div>
-        <div class="flabel" style="margin-bottom:4px;">Fecha de la proxima visita (se agendara automaticamente)</div>
-        <input id="vmNextDate" type="date" class="date-input">
-        <div class="flabel" style="margin-bottom:4px;margin-top:8px;">Objetivo de la proxima visita</div>
-        <textarea id="vmNextObj" class="finput" rows="2" placeholder="Que se revisara en la siguiente visita?"></textarea>
-        <div class="schedule-hint">Al guardar, la proxima visita quedara agendada en tu calendario con la oficina y objetivo indicados.</div>
-      </div>
     </div>
     <div class="mfoot">
       <button class="btn btn-d hidden" id="vmDel" onclick="deleteVisit()">Eliminar</button>
@@ -423,7 +383,7 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--gray);fon
 <script>
 var MONTHS=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 var COMMENT_ROLES=['Presidencia Ejecutiva','Gerencia de Negocios'];
-var ADMIN_CODES=['JRS','GN','JRN','JRC','PE'];
+var ADMIN_CODES=['JRS','GN','JRN','JRC','PE','CPPV'];
 var now=new Date();
 var currentTab=0;
 var editingDay=null;
@@ -433,62 +393,52 @@ var activeFilter='ALL';
 // Colores por usuario (15)
 var UCOLORS=['#E4271D','#78A58D','#4f7ec4','#B0906E','#1D9E75','#9b59b6','#e67e22','#16a085','#2980b9','#8e44ad','#c0392b','#27ae60','#d35400','#696667','#2c3e50'];
 
-// ── ESTRUCTURA COMPLETA FACES MICROFINANZAS ──
-// Region SUR (JRS): Zona1 Loja, Zona2 Loja, Zona3 Zamora
-// Region COSTA (JRC): Zona4 El Oro, Zona5 Guayas
-// Region NORTE (JRN): Zona6 Sierra Norte, Zona7 Costa Norte
+// ── ESTRUCTURA REAL Faces Regional Sur ──
+// Cada usuario tiene: zonaCode, zonaLabel, offices (lista de oficinas que administra)
 var STRUCT = {
-  // Gerencia y Presidencia — acceso total
-  'GN':  {region:'FACES',  zona:'GERENCIA',           zonaCode:'GN',  offices:[]},
-  'PE':  {region:'FACES',  zona:'PRESIDENCIA',         zonaCode:'PE',  offices:[]},
-  // Jefes Regionales
-  'JRS': {region:'SUR',    zona:'REGIONAL SUR',        zonaCode:'JRS', offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
-  'JRC': {region:'COSTA',  zona:'REGIONAL COSTA',      zonaCode:'JRC', offices:['Pasaje','Pinas','Santa Rosa','La Troncal','Milagro','Naranjal']},
-  'JRN': {region:'NORTE',  zona:'REGIONAL NORTE',      zonaCode:'JRN', offices:['Amaguana','Cayambe','Quinche','Tumbaco','El Carmen','Flavio Alfaro','Quininde','San Miguel','Santo Domingo']},
-  // Jefes Zonales — Region SUR
-  'JZ1': {region:'SUR',    zona:'ZONA 1 LOJA',         zonaCode:'Z1',  offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte']},
-  'JZ2': {region:'SUR',    zona:'ZONA 2 LOJA',         zonaCode:'Z2',  offices:['Cariamanga','Catacocha','Catamayo','Celica']},
-  'JZ3': {region:'SUR',    zona:'ZONA 3 ZAMORA',       zonaCode:'Z3',  offices:['Malacatos','Palanda','Zamora','Zumba']},
-  // Jefes Zonales — Region COSTA
-  'JZ4': {region:'COSTA',  zona:'ZONA 4 EL ORO',       zonaCode:'Z4',  offices:['Pasaje','Pinas','Santa Rosa']},
-  'JZ5': {region:'COSTA',  zona:'ZONA 5 GUAYAS',       zonaCode:'Z5',  offices:['La Troncal','Milagro','Naranjal']},
-  // Jefes Zonales — Region NORTE
-  'JZ6': {region:'NORTE',  zona:'ZONA 6 SIERRA NORTE', zonaCode:'Z6',  offices:['Amaguana','Cayambe','Quinche','Tumbaco']},
-  'JZ7': {region:'NORTE',  zona:'ZONA 7 COSTA NORTE',  zonaCode:'Z7',  offices:['El Carmen','Flavio Alfaro','Quininde','San Miguel','Santo Domingo']},
-  // Colaboradores
-  'OT1': {region:'',       zona:'OTROS',               zonaCode:'OT',  offices:[]},
-  'OT2': {region:'',       zona:'OTROS',               zonaCode:'OT',  offices:[]},
-  'OT3': {region:'',       zona:'OTROS',               zonaCode:'OT',  offices:[]},
+  // Regionales
+  'JRS': {zona:'REGIONAL SUR', zonaCode:'JRS', offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
+  'JRN': {zona:'REGIONAL NORTE', zonaCode:'JRN', offices:['Quito Centro','Amaguana','Cayambe','Quinche','Tumbaco','El Carmen','Flavio Alfaro','Quininde','San Miguel','Santo Domingo']},
+  'JRC': {zona:'REGIONAL COSTA', zonaCode:'JRC', offices:['Base Costa','Pasaje','Pinas','Santa Rosa','La Troncal','Milagro','Naranjal']},
+  'GN':  {zona:'GERENCIA',       zonaCode:'GN',  offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
+  'PE':  {zona:'PRESIDENCIA',    zonaCode:'PE',  offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba']},
+  // JZ1 LOJA
+  'JZ1': {zona:'ZONA 1 LOJA', zonaCode:'Z1', offices:['Oficina Centro','Oficina Las Pitas','Oficina Norte']},
+  // JZ2 LOJA
+  'JZ2': {zona:'ZONA 2 LOJA', zonaCode:'Z2', offices:['Cariamanga','Catacocha','Catamayo','Celica']},
+  // JZ3 ZAMORA
+  'JZ3': {zona:'ZONA 3 ZAMORA', zonaCode:'Z3', offices:['Malacatos','Palanda','Zamora','Zumba']},
+  // JZ4..7 genericos por ahora (se asignan desde Admin cuando se ponga nombre real)
+  'JZ4': {zona:'ZONA 4', zonaCode:'Z4', offices:[]},
+  'JZ5': {zona:'ZONA 5', zonaCode:'Z5', offices:[]},
+  'JZ6': {zona:'ZONA 6', zonaCode:'Z6', offices:[]},
+  'JZ7': {zona:'ZONA 7', zonaCode:'Z7', offices:[]},
+  'OT1': {zona:'OTROS', zonaCode:'OT', offices:[]},
+  'OT2': {zona:'OTROS', zonaCode:'OT', offices:[]},
+  'OT3': {zona:'OTROS', zonaCode:'OT', offices:[]},
 };
 
-// Todas las oficinas por region
-var OFFICES_BY_REGION = {
-  'SUR':   ['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba'],
-  'COSTA': ['Pasaje','Pinas','Santa Rosa','La Troncal','Milagro','Naranjal'],
-  'NORTE': ['Amaguana','Cayambe','Quinche','Tumbaco','El Carmen','Flavio Alfaro','Quininde','San Miguel','Santo Domingo']
-};
-// Codigos que se trasladan a oficinas (aparecen en calendario consolidado)
-var FIELD_CODES = ['JRS','JRC','JRN','JZ1','JZ2','JZ3','JZ4','JZ5','JZ6','JZ7'];
-
-var ALL_OFFICES = ['Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba','Pasaje','Pinas','Santa Rosa','La Troncal','Milagro','Naranjal','Amaguana','Cayambe','Quinche','Tumbaco','El Carmen','Flavio Alfaro','Quininde','San Miguel','Santo Domingo'];
+// Todas las oficinas reales
+var ALL_OFFICES = ['Matriz','Oficina Centro','Oficina Las Pitas','Oficina Norte','Cariamanga','Catacocha','Catamayo','Celica','Malacatos','Palanda','Zamora','Zumba'];
 
 var state={
   users:[
-    {id:'u1', name:'Usuario Gerente',          role:'Gerencia de Negocios',       code:'GN',  pass:'GN'},
-    {id:'u2', name:'Jefe Regional Norte',      role:'Jefatura Regional Norte',    code:'JRN', pass:'JRN'},
-    {id:'u3', name:'Jefe Regional Costa',      role:'Jefatura Regional Costa',    code:'JRC', pass:'JRC'},
-    {id:'u4', name:'Jefe Regional Sur',        role:'Jefatura Regional Sur',      code:'JRS', pass:'JRS'},
-    {id:'u5', name:'Jefe Zonal 1 Loja',        role:'Zona 1 Loja',                code:'JZ1', pass:'JZ1'},
-    {id:'u6', name:'Jefe Zonal 2 Loja',        role:'Zona 2 Loja',                code:'JZ2', pass:'JZ2'},
-    {id:'u7', name:'Jefe Zonal 3 Zamora',      role:'Zona 3 Zamora',              code:'JZ3', pass:'JZ3'},
-    {id:'u8', name:'Jefe Zonal 4 El Oro',      role:'Zona 4 El Oro',              code:'JZ4', pass:'JZ4'},
-    {id:'u9', name:'Jefe Zonal 5 Guayas',      role:'Zona 5 Guayas',              code:'JZ5', pass:'JZ5'},
-    {id:'u10',name:'Jefe Zonal 6 Sierra Norte',role:'Zona 6 Sierra Norte',        code:'JZ6', pass:'JZ6'},
-    {id:'u11',name:'Jefe Zonal 7 Costa Norte', role:'Zona 7 Costa Norte',         code:'JZ7', pass:'JZ7'},
-    {id:'u12',name:'Colaborador Presidencia',  role:'Presidencia Ejecutiva',      code:'PE',  pass:'PE'},
-    {id:'u13',name:'Colaborador B',            role:'Otros',                      code:'OT1', pass:'OT1'},
-    {id:'u14',name:'Colaborador C',            role:'Otros',                      code:'OT2', pass:'OT2'},
-    {id:'u15',name:'Colaborador D',            role:'Otros',                      code:'OT3', pass:'OT3'}
+    {id:'u1', name:'Usuario Gerente',       role:'Gerencia de Negocios',      code:'GN',  pass:'GN'},
+    {id:'u2', name:'Jefe Regional Norte',   role:'Jefatura Regional Norte',    code:'JRN', pass:'JRN'},
+    {id:'u3', name:'Jefe Regional Costa',   role:'Jefatura Regional Costa',    code:'JRC', pass:'JRC'},
+    {id:'u4', name:'Jefe Regional Sur',     role:'Jefatura Regional Sur',      code:'JRS', pass:'JRS'},
+    {id:'u5', name:'Jefe Zonal 1 Loja',     role:'Jefatura Negocios Zona 1',   code:'JZ1', pass:'JZ1'},
+    {id:'u6', name:'Jefe Zonal 2 Loja',     role:'Jefatura Negocios Zona 2',   code:'JZ2', pass:'JZ2'},
+    {id:'u7', name:'Jefe Zonal 3 Zamora',   role:'Jefatura Negocios Zona 3',   code:'JZ3', pass:'JZ3'},
+    {id:'u8', name:'Jefe Zonal 4',          role:'Jefatura Negocios Zona 4',   code:'JZ4', pass:'JZ4'},
+    {id:'u9', name:'Jefe Zonal 5',          role:'Jefatura Negocios Zona 5',   code:'JZ5', pass:'JZ5'},
+    {id:'u10',name:'Jefe Zonal 6',          role:'Jefatura Negocios Zona 6',   code:'JZ6', pass:'JZ6'},
+    {id:'u11',name:'Jefe Zonal 7',          role:'Jefatura Negocios Zona 7',   code:'JZ7', pass:'JZ7'},
+    {id:'u12',name:'Colaborador Presidencia',role:'Presidencia Ejecutiva',     code:'PE',  pass:'PE'},
+    {id:'u13',name:'Colaborador B',         role:'Otros',                      code:'OT1', pass:'OT1'},
+    {id:'u14',name:'Colaborador C',         role:'Otros',                      code:'OT2', pass:'OT2'},
+    {id:'u15',name:'Colaborador D',         role:'Otros',                      code:'OT3', pass:'OT3'},
+    {id:'u16',name:'Patricia Palacios',      role:'Coordinadora de Proyectos',   code:'CPPV', pass:'CPPV'}
   ],
   visits:{},
   agencyComments:{},
@@ -497,55 +447,31 @@ var state={
   currentMonth:now.getMonth()
 };
 
-var JSONBIN_ID='6a2a225bf5f4af5e29dc4c8c';
-var JSONBIN_KEY='$2a$10$XcBamfU1PwaGhbYiejG7lO0Qgz1lzWZO88LPrq6b1UVlkEUBpoLBW';
-var JSONBIN_URL='https://api.jsonbin.io/v3/b/'+JSONBIN_ID;
+var FIREBASE_URL='https://faces---visitas-default-rtdb.firebaseio.com/data';
+var _saveTimer=null;
 
 async function loadState(){
   var ov=document.getElementById('loadingOverlay');
   if(ov)ov.classList.remove('hidden');
   try{
-    var resp=await fetch(JSONBIN_URL+'/latest',{headers:{'X-Access-Key':JSONBIN_KEY}});
-    if(resp.ok){var d=await resp.json();var r=d.record;
-      if(r.users)state.users=r.users;
-      if(r.visits)state.visits=r.visits;
-      if(r.agencyComments)state.agencyComments=r.agencyComments;
-    }
-  }catch(e){
-    console.warn('JSONBin error:',e);
-    try{var loc=localStorage.getItem('faces_bk');if(loc){var s=JSON.parse(loc);if(s.users)state.users=s.users;if(s.visits)state.visits=s.visits;if(s.agencyComments)state.agencyComments=s.agencyComments;}}catch(e2){}
-  }
+    var resp=await fetch(FIREBASE_URL+'.json',{method:'GET',cache:'no-cache'});
+    if(resp.ok){var r=await resp.json();if(r){if(r.users&&r.users.length>0)state.users=r.users;if(r.visits)state.visits=r.visits;if(r.agencyComments)state.agencyComments=r.agencyComments;}}
+  }catch(e){console.warn('Firebase error:',e);try{var loc=localStorage.getItem('faces_bk');if(loc){var s=JSON.parse(loc);if(s.users)state.users=s.users;if(s.visits)state.visits=s.visits;if(s.agencyComments)state.agencyComments=s.agencyComments;}}catch(e2){}}
   if(ov)ov.classList.add('hidden');
   initLogin();
 }
-
-var _saveTimer=null;
 async function saveState(){
-  // Backup local siempre e inmediato
   try{localStorage.setItem('faces_bk',JSON.stringify({users:state.users,visits:state.visits,agencyComments:state.agencyComments}));}catch(e){}
-  // Enviar a JSONBin con debounce — cancela el timer anterior y espera 1s desde el ultimo cambio
-  if(_saveTimer) clearTimeout(_saveTimer);
+  if(_saveTimer)clearTimeout(_saveTimer);
   _saveTimer=setTimeout(async function(){
-    try{
-      var resp=await fetch(JSONBIN_URL,{
-        method:'PUT',
-        headers:{'Content-Type':'application/json','X-Access-Key':JSONBIN_KEY},
-        body:JSON.stringify({users:state.users,visits:state.visits,agencyComments:state.agencyComments})
-      });
-      if(resp.ok){
-        var btn=document.getElementById('syncBtn');
-        if(btn){btn.style.background='rgba(120,165,141,.5)';setTimeout(function(){btn.style.background='';},1500);}
-      }
-    }catch(e){console.warn('Error guardando en JSONBin:',e);}
-  },1000);
+    try{await fetch(FIREBASE_URL+'.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({users:state.users,visits:state.visits,agencyComments:state.agencyComments})});}catch(e){console.warn('Save error:',e);}
+  },800);
 }
-function getUserColor(uid){var idx=state.users.findIndex(function(u){return u.id===uid;});return UCOLORS[idx%UCOLORS.length];}
 function getUserStruct(code){return STRUCT[code]||{zona:'',zonaCode:'',offices:[]};}
 function getUserOffices(code){
   var s=getUserStruct(code);
   if(s.offices&&s.offices.length>0)return s.offices;
-  if(s.region&&OFFICES_BY_REGION[s.region])return OFFICES_BY_REGION[s.region];
-  return ALL_OFFICES;
+  return ALL_OFFICES; // fallback para JR/GN
 }
 
 // ── LOGIN ──
@@ -573,10 +499,10 @@ function initApp(){
   var user=state.users.find(function(u){return u.id===state.currentUser;});
   var st=getUserStruct(user.code);
   document.getElementById('hdrBadge').textContent=user.code+' - '+user.name.split(' ').slice(0,2).join(' ');
-  // Solo JRS ve Admin y Reporte
-  var isAdmin=(user.code==='JRS');
+  var isAdmin=ADMIN_CODES.indexOf(user.code)>=0;
   document.getElementById('tabAdmin').classList.toggle('hidden',!isAdmin);
-  document.getElementById('tabReporte').classList.toggle('hidden',!isAdmin);
+  var canReport=['JRS','GN','PE','JRN','JRC'].indexOf(user.code)>=0;
+  document.getElementById('p3').previousElementSibling; // reporte tab always visible for certain roles
   // populate report selectors
   var rm=document.getElementById('rptMonth');
   rm.innerHTML=MONTHS.map(function(m,i){return '<option value="'+i+'"'+(i===state.currentMonth?' selected':'')+'>'+m+'</option>';}).join('');
@@ -597,18 +523,11 @@ function buildFilterPills(){
   row.innerHTML='';
   // ALL
   row.innerHTML+='<div class="fpill'+(activeFilter==='ALL'?' on':'')+'" onclick="setFilter(\'ALL\')">Todos</div>';
-  // Regiones y Zonas
+  // Zones from users who have offices
   var zones=[
-    {code:'SUR',  label:'Region Sur',  color:'#E4271D'},
-    {code:'COSTA',label:'Region Costa',color:'#78A58D'},
-    {code:'NORTE',label:'Region Norte',color:'#4f7ec4'},
-    {code:'Z1',   label:'Z1 Loja',     color:'#c0392b'},
-    {code:'Z2',   label:'Z2 Loja',     color:'#27ae60'},
-    {code:'Z3',   label:'Z3 Zamora',   color:'#2980b9'},
-    {code:'Z4',   label:'Z4 El Oro',   color:'#8e44ad'},
-    {code:'Z5',   label:'Z5 Guayas',   color:'#d35400'},
-    {code:'Z6',   label:'Z6 Sierra N.',color:'#16a085'},
-    {code:'Z7',   label:'Z7 Costa N.', color:'#696667'},
+    {code:'Z1',label:'Zona 1 Loja',color:'#E4271D'},
+    {code:'Z2',label:'Zona 2 Loja',color:'#78A58D'},
+    {code:'Z3',label:'Zona 3 Zamora',color:'#4f7ec4'}
   ];
   zones.forEach(function(z){
     row.innerHTML+='<div class="fpill'+(activeFilter===z.code?' on':'')+'" onclick="setFilter(\''+z.code+'\')" style="'+(activeFilter===z.code?'background:'+z.color+';border-color:'+z.color+';color:#fff;':'border-color:'+z.color+'30;')+'"><div class="fpill-dot" style="background:'+(activeFilter===z.code?'rgba(255,255,255,.6)':z.color)+';"></div>'+z.label+'</div>';
@@ -627,14 +546,13 @@ function renderCons(){
   var dim=new Date(y,m+1,0).getDate();
   var fd=new Date(y,m,1).getDay();
   var offset=(fd===0)?6:fd-1;
-  document.getElementById('consTitle').textContent=MONTHS[m]+' '+y+' - Area de Negocios Faces';
+  document.getElementById('consTitle').textContent=MONTHS[m]+' '+y+' - Area de Negocios Regional Sur';
 
   buildFilterPills();
 
-  // Build dayMap — solo Regionales y Zonales (los que se trasladan)
-  var fieldUsers=state.users.filter(function(u){return FIELD_CODES.indexOf(u.code)>=0;});
+  // Build dayMap
   var dayMap={};var agMap={};var total=0;
-  fieldUsers.forEach(function(u){
+  state.users.forEach(function(u){
     for(var d=1;d<=dim;d++){
       var k=u.id+'-'+y+'-'+m+'-'+d;var v=state.visits[k];
       if(v){
@@ -655,7 +573,7 @@ function renderCons(){
 
   // Right: pending
   var rpl=document.getElementById('rPendList');rpl.innerHTML='';
-  var pending=fieldUsers.filter(function(u){var c=0;for(var d=1;d<=dim;d++){if(state.visits[u.id+'-'+y+'-'+m+'-'+d])c++;}return c===0;});
+  var pending=state.users.filter(function(u){var c=0;for(var d=1;d<=dim;d++){if(state.visits[u.id+'-'+y+'-'+m+'-'+d])c++;}return c===0;});
   if(!pending.length)rpl.innerHTML='<div style="color:var(--green);font-size:11px;font-weight:500;">Todos registraron</div>';
   else pending.forEach(function(u){var st2=getUserStruct(u.code);rpl.innerHTML+='<div style="display:flex;align-items:center;gap:5px;padding:3px 0;font-size:11px;"><div style="width:6px;height:6px;border-radius:50%;background:#f59e0b;flex-shrink:0;"></div>'+u.code+'<span style="color:#aaa;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+u.name.split(' ').slice(0,2).join(' ')+'</span></div>';});
 
@@ -676,14 +594,10 @@ function renderCons(){
     // Apply filter
     var filtered=allDV;
     if(activeFilter!=='ALL'){
-      var regionCodes=['SUR','COSTA','NORTE'];
-      if(regionCodes.indexOf(activeFilter)>=0){
-        filtered=allDV.filter(function(dv){return getUserStruct(dv.user.code).region===activeFilter;});
-      } else if(['Z1','Z2','Z3','Z4','Z5','Z6','Z7'].indexOf(activeFilter)>=0){
-        filtered=allDV.filter(function(dv){return getUserStruct(dv.user.code).zonaCode===activeFilter;});
-      } else {
-        filtered=allDV.filter(function(dv){return dv.visit.agency===activeFilter;});
-      }
+      if(activeFilter==='Z1')filtered=allDV.filter(function(dv){return getUserStruct(dv.user.code).zonaCode==='Z1';});
+      else if(activeFilter==='Z2')filtered=allDV.filter(function(dv){return getUserStruct(dv.user.code).zonaCode==='Z2';});
+      else if(activeFilter==='Z3')filtered=allDV.filter(function(dv){return getUserStruct(dv.user.code).zonaCode==='Z3';});
+      else filtered=allDV.filter(function(dv){return dv.visit.agency===activeFilter;});
     }
 
     var MAX=4;
@@ -714,8 +628,7 @@ function openDayModal(d){
   var dn=['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
   document.getElementById('dayTitle').textContent=dn[new Date(y,m,d).getDay()]+' '+d+' de '+MONTHS[m]+' '+y;
   var dvs=[];
-  var fUsers=state.users.filter(function(u){return FIELD_CODES.indexOf(u.code)>=0;});
-  fUsers.forEach(function(u){var k=u.id+'-'+y+'-'+m+'-'+d;var v=state.visits[k];if(v)dvs.push({user:u,visit:v});});
+  state.users.forEach(function(u){var k=u.id+'-'+y+'-'+m+'-'+d;var v=state.visits[k];if(v)dvs.push({user:u,visit:v});});
   var st2=getUserStruct(state.users.find(function(u){return u.id===state.currentUser;}).code);
   var cont=document.getElementById('dayContent');
   if(!dvs.length){cont.innerHTML='<div style="color:#bbb;font-size:12px;text-align:center;padding:20px;">Sin visitas planificadas</div>';}
@@ -727,12 +640,8 @@ function openDayModal(d){
       var uSt=getUserStruct(dv.user.code);
       var detail='';
       if(dv.visit.obj)detail+='<b>Objetivo:</b> '+dv.visit.obj+'<br>';
-      if(dv.visit.sit)detail+='<b>Situacion actual:</b> '+dv.visit.sit+'<br>';
-      if(dv.visit.resEsp)detail+='<b>Resultado esperado:</b> '+dv.visit.resEsp+'<br>';
-      if(dv.visit.compEq||dv.visit.compMi)detail+='<b>Compromisos:</b> '+(dv.visit.compEq?'Equipo: '+dv.visit.compEq+' ':'')+( dv.visit.compMi?'| JZ/JR: '+dv.visit.compMi:'')+'<br>';
       if(dv.visit.res)detail+='<b>Resultado:</b> '+dv.visit.res+'<br>';
       if(dv.visit.obs)detail+='<b>Obs:</b> '+dv.visit.obs;
-      if(dv.visit.nextDate)detail+='<br><span style="background:#fff0f0;border:.5px solid #fca5a5;border-radius:4px;padding:2px 6px;font-size:10px;">Prox. visita: '+dv.visit.nextDate+(dv.visit.nextObj?' - '+dv.visit.nextObj:'')+'</span>';
       cont.innerHTML+='<div class="dvc"><div class="dvc-av" style="background:'+color+';">'+av+'</div><div style="flex:1;"><div style="font-size:12px;font-weight:500;">'+dv.user.name+'</div><div style="font-size:10px;color:#aaa;">'+dv.user.code+' - '+uSt.zona+'</div><div class="dvc-agency">'+dv.visit.agency+'</div>'+(detail?'<div class="dvc-detail">'+detail+'</div>':'')+'</div></div>';
     });
   }
@@ -804,15 +713,8 @@ function openVM(day){
     ALL_OFFICES.forEach(function(o){var op=document.createElement('option');op.value=o;op.textContent=o;if(v&&v.agency===o)op.selected=true;sel.appendChild(op);});
   }
   document.getElementById('vmObj').value=v?v.obj||'':'';
-  document.getElementById('vmSit').value=v?v.sit||'':'';
-  document.getElementById('vmResEsp').value=v?v.resEsp||'':'';
-  document.getElementById('vmCompEq').value=v?v.compEq||'':'';
-  document.getElementById('vmCompMi').value=v?v.compMi||'':'';
   document.getElementById('vmRes').value=v?v.res||'':'';
   document.getElementById('vmObs').value=v?v.obs||'':'';
-  // Next visit
-  document.getElementById('vmNextDate').value=v?v.nextDate||'':'';
-  document.getElementById('vmNextObj').value=v?v.nextObj||'':'';
   // Comments
   var ck=(v?v.agency:'')+'-'+y+'-'+m;var cmt=state.agencyComments[ck];
   var cmtDiv=document.getElementById('vmComments');cmtDiv.innerHTML='';
@@ -839,31 +741,8 @@ function saveVisit(){
     showToast('Comentario guardado');
   }else{
     var sel=document.getElementById('vmAgSel');if(!sel.value){showToast('Selecciona una oficina');return;}
-    var nextDateVal=document.getElementById('vmNextDate').value;
-    var nextObjVal=document.getElementById('vmNextObj').value;
-    state.visits[state.currentUser+'-'+y+'-'+m+'-'+editingDay]={
-      agency:sel.value,
-      obj:document.getElementById('vmObj').value,
-      sit:document.getElementById('vmSit').value,
-      resEsp:document.getElementById('vmResEsp').value,
-      compEq:document.getElementById('vmCompEq').value,
-      compMi:document.getElementById('vmCompMi').value,
-      res:document.getElementById('vmRes').value,
-      obs:document.getElementById('vmObs').value,
-      nextDate:nextDateVal,
-      nextObj:nextObjVal
-    };
-    // Auto-schedule next visit if date provided
-    if(nextDateVal){
-      var nd=new Date(nextDateVal+'T12:00:00');
-      var ny=nd.getFullYear();var nm=nd.getMonth();var nday=nd.getDate();
-      var nkey=state.currentUser+'-'+ny+'-'+nm+'-'+nday;
-      if(!state.visits[nkey]){
-        state.visits[nkey]={agency:sel.value,obj:nextObjVal||'Seguimiento: '+sel.value,sit:'',resEsp:'',compEq:'',compMi:'',res:'',obs:'Visita agendada automaticamente desde visita del '+editingDay+'/'+( m+1)+'/'+y,nextDate:'',nextObj:''};
-        showToast('Visita guardada y proxima visita agendada');
-      }else{showToast('Visita guardada (fecha proxima ya tenia registro)');} 
-    }else{showToast('Visita guardada');}
-    updateNotifDot();
+    state.visits[state.currentUser+'-'+y+'-'+m+'-'+editingDay]={agency:sel.value,obj:document.getElementById('vmObj').value,res:document.getElementById('vmRes').value,obs:document.getElementById('vmObs').value};
+    showToast('Visita guardada');updateNotifDot();
   }
   saveState();closeVM();renderCurrentTab();
 }
@@ -880,7 +759,7 @@ function deleteVisit(){
 function renderStats(){
   var y=state.currentYear,m=state.currentMonth;var dim=new Date(y,m+1,0).getDate();
   var agMap={};var uMap={};var total=0;var active=0;var wa=0;
-  state.users.filter(function(u){return FIELD_CODES.indexOf(u.code)>=0;}).forEach(function(u){var cnt=0;for(var d=1;d<=dim;d++){var k=u.id+'-'+y+'-'+m+'-'+d;var v=state.visits[k];if(v){total++;cnt++;agMap[v.agency]=(agMap[v.agency]||0)+1;if(v.obj||v.res)wa++;}}if(cnt>0){active++;uMap[u.code]=cnt;}});
+  state.users.forEach(function(u){var cnt=0;for(var d=1;d<=dim;d++){var k=u.id+'-'+y+'-'+m+'-'+d;var v=state.visits[k];if(v){total++;cnt++;agMap[v.agency]=(agMap[v.agency]||0)+1;if(v.obj||v.res)wa++;}}if(cnt>0){active++;uMap[u.code]=cnt;}});
   document.getElementById('st1').textContent=total;document.getElementById('st2').textContent=Object.keys(agMap).length;document.getElementById('st3').textContent=active;document.getElementById('st4').textContent=wa;
   var agE=Object.entries(agMap).sort(function(a,b){return b[1]-a[1];}).slice(0,10);var mxA=agE[0]?agE[0][1]:1;
   var ac=document.getElementById('agChart');ac.innerHTML='';
@@ -898,7 +777,7 @@ function generateReport(){
   var dim=new Date(y,m+1,0).getDate();
   var dn=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
   var totalV=0;var agMap={};var wa=0;var activeU=[];
-  var userDetails=state.users.filter(function(u){return FIELD_CODES.indexOf(u.code)>=0;}).map(function(u){
+  var userDetails=state.users.map(function(u){
     var visits=[];
     for(var d=1;d<=dim;d++){var k=u.id+'-'+y+'-'+m+'-'+d;var v=state.visits[k];if(v){visits.push(Object.assign({day:d,dow:dn[new Date(y,m,d).getDay()]},v));totalV++;agMap[v.agency]=(agMap[v.agency]||0)+1;if(v.obj||v.res)wa++;}}
     if(visits.length)activeU.push(u.name);
@@ -906,7 +785,7 @@ function generateReport(){
   });
   var agE=Object.entries(agMap).sort(function(a,b){return b[1]-a[1];});
   var topAg=agE[0]?agE[0][0]:'-';
-  var pending=state.users.filter(function(u){return FIELD_CODES.indexOf(u.code)>=0&&activeU.indexOf(u.name)<0;});
+  var pending=state.users.filter(function(u){return activeU.indexOf(u.name)<0;});
 
   var html='<div class="rpt-container">';
   html+='<div class="rpt-toolbar"><span style="font-size:11px;">Vista previa</span><div style="flex:1;"></div><div class="ebtn r" onclick="printReport()">Imprimir / PDF</div></div>';
@@ -946,7 +825,7 @@ function generateReport(){
     uWA.forEach(function(u){
       var av=u.visits.filter(function(v){return v.obj||v.res||v.obs;});
       html+='<div style="margin-bottom:12px;"><div style="font-family:Exo 2,sans-serif;font-size:12px;font-weight:600;margin-bottom:6px;">'+u.name+' <span style="color:#aaa;font-weight:400;font-size:10px;">('+u.code+' - '+u.zona+')</span></div>';
-      av.forEach(function(v){html+='<div style="background:#fafafa;border:.5px solid var(--light);border-radius:6px;padding:8px 12px;margin-bottom:5px;font-size:11px;"><div style="font-weight:500;color:var(--red);margin-bottom:3px;">'+v.dow+' '+v.day+' - '+v.agency+'</div>'+(v.obj?'<div><b>Objetivo:</b> '+v.obj+'</div>':'')+(v.sit?'<div><b>Situacion:</b> '+v.sit+'</div>':'')+(v.resEsp?'<div><b>Resultado esperado:</b> '+v.resEsp+'</div>':'')+(v.compEq?'<div><b>Compromisos equipo:</b> '+v.compEq+'</div>':'')+(v.compMi?'<div><b>Compromisos JZ/JR:</b> '+v.compMi+'</div>':'')+(v.res?'<div><b>Resultado obtenido:</b> '+v.res+'</div>':'')+(v.obs?'<div><b>Obs:</b> '+v.obs+'</div>':'')+(v.nextDate?'<div style="margin-top:4px;"><b style="color:var(--red);">Prox. visita:</b> '+v.nextDate+(v.nextObj?' - '+v.nextObj:'')+'</div>':'')+'</div>';});
+      av.forEach(function(v){html+='<div style="background:#fafafa;border:.5px solid var(--light);border-radius:6px;padding:8px 12px;margin-bottom:5px;font-size:11px;"><div style="font-weight:500;color:var(--red);margin-bottom:3px;">'+v.dow+' '+v.day+' - '+v.agency+'</div>'+(v.obj?'<div><b>Objetivo:</b> '+v.obj+'</div>':'')+(v.res?'<div><b>Resultado:</b> '+v.res+'</div>':'')+(v.obs?'<div><b>Obs:</b> '+v.obs+'</div>':'')+'</div>';});
       html+='</div>';
     });
     html+='</div>';
@@ -974,10 +853,9 @@ function toggleNotif(){
   if(notifOpen){
     var y=state.currentYear,m=state.currentMonth;
     var list=document.getElementById('notifList');list.innerHTML='';
-    // Group by zone — solo Regionales y Zonales
+    // Group by zone
     var byZone={};
-    var fU=state.users.filter(function(u){return FIELD_CODES.indexOf(u.code)>=0;});
-    fU.forEach(function(u){
+    state.users.forEach(function(u){
       var cnt=getUserVisitCount(u.id,y,m);
       var z=getUserStruct(u.code).zona||'Otros';
       if(!byZone[z])byZone[z]=[];
@@ -1006,26 +884,9 @@ function saveUser(uid){var u=state.users.find(function(x){return x.id===uid;});i
 function exportCSV(){
   var y=state.currentYear,m=state.currentMonth;var dim=new Date(y,m+1,0).getDate();
   var dn=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
-  var csv='Usuario,Codigo,Zona,Dia,Fecha,Oficina,Objetivo,Situacion,ResEsperado,CompEq,CompJZ,ResObtenido,Observacion,ProxVisita,ObjProxVisita\n';
-  state.users.filter(function(u){return FIELD_CODES.indexOf(u.code)>=0;}).forEach(function(u){for(var d=1;d<=dim;d++){var k=u.id+'-'+y+'-'+m+'-'+d;if(state.visits[k]){var v=state.visits[k];var dow=new Date(y,m,d).getDay();csv+='"'+u.name+'","'+u.code+'","'+getUserStruct(u.code).zona+'","'+d+'","'+dn[dow]+' '+d+' '+MONTHS[m]+' '+y+'","'+v.agency+'","'+(v.obj||'')+'","'+(v.sit||'')+'","'+(v.resEsp||'')+'","'+(v.compEq||'')+'","'+(v.compMi||'')+'","'+(v.res||'')+'","'+(v.obs||'')+'","'+(v.nextDate||'')+'","'+(v.nextObj||'')+'"\n';}}});
+  var csv='Usuario,Codigo,Zona,Dia,Fecha,Oficina,Objetivo,Resultado,Observacion\n';
+  state.users.forEach(function(u){for(var d=1;d<=dim;d++){var k=u.id+'-'+y+'-'+m+'-'+d;if(state.visits[k]){var v=state.visits[k];var dow=new Date(y,m,d).getDay();csv+='"'+u.name+'","'+u.code+'","'+getUserStruct(u.code).zona+'","'+d+'","'+dn[dow]+' '+d+' '+MONTHS[m]+' '+y+'","'+v.agency+'","'+(v.obj||'')+'","'+(v.res||'')+'","'+(v.obs||'')+'"\n';}}});
   var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='visitas_'+MONTHS[m]+'_'+y+'.csv';a.click();showToast('CSV descargado');
-}
-
-async function syncNow(){
-  var btn = document.getElementById('syncBtn');
-  if(btn) btn.textContent = '...';
-  try{
-    var resp = await fetch(JSONBIN_URL + '/latest', {headers:{'X-Access-Key':JSONBIN_KEY}});
-    if(resp.ok){
-      var data = await resp.json(); var remote = data.record;
-      if(remote.users) state.users = remote.users;
-      if(remote.visits) state.visits = remote.visits;
-      if(remote.agencyComments) state.agencyComments = remote.agencyComments;
-      renderCurrentTab(); updateNotifDot();
-      showToast('Datos sincronizados');
-    }
-  }catch(e){ showToast('Sin conexion - mostrando datos locales'); }
-  if(btn) btn.textContent = '⟳ Sync';
 }
 
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2200);}
