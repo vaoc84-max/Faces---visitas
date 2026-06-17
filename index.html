@@ -115,6 +115,16 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--gray);fon
 .btn-p{background:var(--red);color:#fff;}
 .btn-d{background:#fef2f2;border:.5px solid #fca5a5;color:#c00;}
 .cmt-box{background:#fffbe6;border:.5px solid #f0d060;border-radius:6px;padding:8px 10px;margin-bottom:10px;font-size:11px;color:#7a6000;}
+.section-divider{display:flex;align-items:center;gap:8px;margin:14px 0 10px;font-size:10px;color:#aaa;font-weight:500;letter-spacing:.5px;text-transform:uppercase;}
+.section-divider::before,.section-divider::after{content:'';flex:1;height:.5px;background:var(--light);}
+.commit-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.commit-card{background:#fafafa;border:.5px solid var(--light);border-radius:8px;padding:10px;}
+.commit-card-title{font-size:10px;font-weight:500;color:var(--red);margin-bottom:6px;display:flex;align-items:center;gap:4px;}
+.next-visit-box{background:#fff8f8;border:.5px solid #fca5a5;border-radius:8px;padding:12px;margin-bottom:10px;}
+.next-visit-title{font-size:11px;font-weight:600;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:5px;}
+.date-input{width:100%;border:.5px solid var(--light);border-radius:6px;padding:6px 10px;font-family:'Poppins',sans-serif;font-size:12px;color:var(--gray);margin-bottom:0;}
+.date-input:focus{outline:none;border-color:var(--red);}
+.schedule-hint{font-size:10px;color:#aaa;margin-top:5px;}
 
 /* DAY DETAIL */
 .dvc{display:flex;gap:12px;padding:10px 0;border-bottom:.5px solid #f5f5f5;}
@@ -122,6 +132,12 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--gray);fon
 .dvc-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;flex-shrink:0;}
 .dvc-agency{font-size:13px;font-weight:600;color:var(--red);margin-top:2px;}
 .dvc-detail{font-size:10px;color:#888;margin-top:3px;line-height:1.6;}
+.obs-warn{display:inline-flex;align-items:center;gap:3px;background:#fff3cd;color:#856404;border:.5px solid #ffe69c;border-radius:10px;padding:1px 7px;font-size:9px;font-weight:600;margin-left:6px;}
+.sup-comment-btn{background:transparent;border:.5px solid var(--light);color:var(--gray);border-radius:6px;padding:4px 10px;font-size:10px;cursor:pointer;margin-top:6px;}
+.sup-comment-btn:hover{border-color:var(--red);color:var(--red);}
+.sup-cmt-box{background:#eef6ff;border:.5px solid #bcdcff;border-radius:6px;padding:8px 10px;margin-top:6px;font-size:11px;color:#1a4a78;}
+.sup-cmt-form{margin-top:6px;display:none;}
+.sup-cmt-form.show{display:block;}
 
 /* STATS */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
@@ -231,8 +247,8 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--gray);fon
   <div class="tab on"  onclick="showTab(0)">Equipo completo</div>
   <div class="tab"    onclick="showTab(1)">Mi calendario</div>
   <div class="tab"    onclick="showTab(2)">Estadisticas</div>
-  <div class="tab"    onclick="showTab(3)">Reporte</div>
-  <div class="tab" id="tabAdmin" onclick="showTab(4)">Admin</div>
+  <div class="tab hidden" id="tabReporte" onclick="showTab(3)">Reporte</div>
+  <div class="tab hidden" id="tabAdmin" onclick="showTab(4)">Admin</div>
 </div>
 
 <!-- P0: CONSOLIDATED -->
@@ -347,12 +363,39 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--gray);fon
     <div id="vmForm">
       <div class="flabel">Oficina / Agencia</div>
       <select id="vmAgSel" class="finput"></select>
-      <div class="flabel">Objetivo</div>
-      <textarea id="vmObj" class="finput" rows="2" placeholder="Objetivo de la visita..."></textarea>
+
+      <div class="section-divider">Planificacion de la visita</div>
+      <div class="flabel">Objetivo de la visita</div>
+      <textarea id="vmObj" class="finput" rows="2" placeholder="Que objetivo tiene esta visita?"></textarea>
+      <div class="flabel">Situacion actual</div>
+      <textarea id="vmSit" class="finput" rows="2" placeholder="Como esta actualmente la oficina / equipo?"></textarea>
+      <div class="flabel">Resultado esperado</div>
+      <textarea id="vmResEsp" class="finput" rows="2" placeholder="Que resultado esperas lograr con esta visita?"></textarea>
+
+      <div class="section-divider">Compromisos adquiridos</div>
+      <div class="commit-grid">
+        <div class="commit-card">
+          <div class="commit-card-title">Compromisos del equipo</div>
+          <textarea id="vmCompEq" class="finput" rows="3" placeholder="Compromisos asumidos por el equipo de la oficina..."></textarea>
+        </div>
+        <div class="commit-card">
+          <div class="commit-card-title">Mis compromisos</div>
+          <textarea id="vmCompMi" class="finput" rows="3" placeholder="Compromisos que yo asumo como JZ / JR..."></textarea>
+        </div>
+      </div>
       <div class="flabel">Resultado obtenido</div>
-      <textarea id="vmRes" class="finput" rows="2" placeholder="Resultado..."></textarea>
+      <textarea id="vmRes" class="finput" rows="2" placeholder="Que resultado obtuviste al final de la visita?"></textarea>
       <div class="flabel">Observaciones</div>
       <textarea id="vmObs" class="finput" rows="2" placeholder="Notas adicionales..."></textarea>
+
+      <div class="next-visit-box">
+        <div class="next-visit-title">Proxima visita</div>
+        <div class="flabel" style="margin-bottom:4px;">Fecha de la proxima visita (se agendara automaticamente)</div>
+        <input id="vmNextDate" type="date" class="date-input">
+        <div class="flabel" style="margin-bottom:4px;margin-top:8px;">Objetivo de la proxima visita</div>
+        <textarea id="vmNextObj" class="finput" rows="2" placeholder="Que se revisara en la siguiente visita?"></textarea>
+        <div class="schedule-hint">Al guardar, la proxima visita quedara agendada en tu calendario con la oficina y objetivo indicados.</div>
+      </div>
     </div>
     <div class="mfoot">
       <button class="btn btn-d hidden" id="vmDel" onclick="deleteVisit()">Eliminar</button>
@@ -382,11 +425,13 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--gray);fon
 
 <script>
 var MONTHS=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-var COMMENT_ROLES=['Presidencia Ejecutiva','Gerencia de Negocios'];
-var ADMIN_CODES=['JRS','GN','JRN','JRC','PE','CPPV'];
+var COMMENT_ROLES=['Presidencia Ejecutiva'];
+var CAN_COMMENT_ON_OTHERS=['PE','JRS','JRN','JRC'];
+var ADMIN_CODES=['JRS','PE','CPPV'];
 var now=new Date();
 var currentTab=0;
 var editingDay=null;
+var editingSlot=0;
 var notifOpen=false;
 var activeFilter='ALL';
 
@@ -472,11 +517,27 @@ async function saveState(){
     try{await fetch(FIREBASE_URL+'.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({users:state.users,visits:state.visits,agencyComments:state.agencyComments})});}catch(e){console.warn('Save error:',e);}
   },800);
 }
+// Obtener visitas de un usuario en un dia (max 2)
+// Soporta formato nuevo (con slot: uid-y-m-d-0) y formato antiguo (uid-y-m-d)
+function getDayVisits(uid,y,m,d){
+  var visits=[];
+  var kNew0=uid+'-'+y+'-'+m+'-'+d+'-0';
+  var kOld=uid+'-'+y+'-'+m+'-'+d;
+  var v0=state.visits[kNew0]||state.visits[kOld];
+  if(v0) visits.push({slot:0,visit:v0});
+  var v1=state.visits[uid+'-'+y+'-'+m+'-'+d+'-1'];
+  if(v1) visits.push({slot:1,visit:v1});
+  return visits;
+}
+function getDayVisitCount(uid,y,m,d){return getDayVisits(uid,y,m,d).length;}
+
 function getUserStruct(code){return STRUCT[code]||{zona:'',zonaCode:'',offices:[]};}
 function getUserOffices(code){
+  if(['JRS','GN','PE','CPPV','JRN','JRC'].indexOf(code)>=0) return ALL_OFFICES;
   var s=getUserStruct(code);
   if(s.offices&&s.offices.length>0)return s.offices;
-  return ALL_OFFICES; // fallback para JR/GN
+  if(s.region&&OFFICES_BY_REGION[s.region])return OFFICES_BY_REGION[s.region];
+  return ALL_OFFICES;
 }
 
 // ── LOGIN ──
@@ -506,8 +567,7 @@ function initApp(){
   document.getElementById('hdrBadge').textContent=user.code+' - '+user.name.split(' ').slice(0,2).join(' ');
   var isAdmin=ADMIN_CODES.indexOf(user.code)>=0;
   document.getElementById('tabAdmin').classList.toggle('hidden',!isAdmin);
-  var canReport=['JRS','GN','PE','JRN','JRC'].indexOf(user.code)>=0;
-  document.getElementById('p3').previousElementSibling; // reporte tab always visible for certain roles
+  document.getElementById('tabReporte').classList.toggle('hidden',!isAdmin);
   // populate report selectors
   var rm=document.getElementById('rptMonth');
   rm.innerHTML=MONTHS.map(function(m,i){return '<option value="'+i+'"'+(i===state.currentMonth?' selected':'')+'>'+m+'</option>';}).join('');
@@ -562,16 +622,16 @@ function renderCons(){
 
   buildFilterPills();
 
-  // Build dayMap
+  // Build dayMap — solo Regionales y Zonales (los que se trasladan)
+  var fieldUsers=state.users.filter(function(u){return FIELD_CODES.indexOf(u.code)>=0;});
   var dayMap={};var agMap={};var total=0;
-  state.users.forEach(function(u){
+  fieldUsers.forEach(function(u){
     for(var d=1;d<=dim;d++){
-      var k=u.id+'-'+y+'-'+m+'-'+d;var v=state.visits[k];
-      if(v){
+      getDayVisits(u.id,y,m,d).forEach(function(dv){
         if(!dayMap[d])dayMap[d]=[];
-        dayMap[d].push({user:u,visit:v});
-        agMap[v.agency]=(agMap[v.agency]||0)+1;total++;
-      }
+        dayMap[d].push({user:u,visit:dv.visit,slot:dv.slot});
+        agMap[dv.visit.agency]=(agMap[dv.visit.agency]||0)+1;total++;
+      });
     }
   });
   document.getElementById('rTotal').textContent=total;
@@ -585,7 +645,7 @@ function renderCons(){
 
   // Right: pending
   var rpl=document.getElementById('rPendList');rpl.innerHTML='';
-  var pending=state.users.filter(function(u){var c=0;for(var d=1;d<=dim;d++){if(state.visits[u.id+'-'+y+'-'+m+'-'+d])c++;}return c===0;});
+  var pending=fieldUsers.filter(function(u){var c=0;for(var d=1;d<=dim;d++){c+=getDayVisitCount(u.id,y,m,d);}return c===0;});
   if(!pending.length)rpl.innerHTML='<div style="color:var(--green);font-size:11px;font-weight:500;">Todos registraron</div>';
   else pending.forEach(function(u){var st2=getUserStruct(u.code);rpl.innerHTML+='<div style="display:flex;align-items:center;gap:5px;padding:3px 0;font-size:11px;"><div style="width:6px;height:6px;border-radius:50%;background:#f59e0b;flex-shrink:0;"></div>'+u.code+'<span style="color:#aaa;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+u.name.split(' ').slice(0,2).join(' ')+'</span></div>';});
 
@@ -623,7 +683,7 @@ function renderCons(){
       tag.className='vtag';
       tag.style.background=color+'18';
       tag.style.color=color;
-      tag.innerHTML='<div class="vtag-dot" style="background:'+color+';"></div><span class="vtag-code">'+dv.user.code+'</span><span class="vtag-ag">'+dv.visit.agency+'</span>';
+      tag.innerHTML='<div class="vtag-dot" style="background:'+color+';"></div><span class="vtag-code">'+dv.user.code+'</span><span class="vtag-ag">'+dv.visit.agency+'</span>'+(dv.visit.obs?'<span title="Tiene observacion" style="margin-left:2px;">&#9888;</span>':'');
       tag.title=dv.user.name+' - '+dv.visit.agency;
       (function(day){tag.onclick=function(e){e.stopPropagation();openDayModal(day);};})(d);
       cell.appendChild(tag);
@@ -644,21 +704,39 @@ function openDayModal(d){
   var dn=['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
   document.getElementById('dayTitle').textContent=dn[new Date(y,m,d).getDay()]+' '+d+' de '+MONTHS[m]+' '+y;
   var dvs=[];
-  state.users.forEach(function(u){var k=u.id+'-'+y+'-'+m+'-'+d;var v=state.visits[k];if(v)dvs.push({user:u,visit:v});});
-  var st2=getUserStruct(state.users.find(function(u){return u.id===state.currentUser;}).code);
+  var fUsers=state.users.filter(function(u){return FIELD_CODES.indexOf(u.code)>=0;});
+  fUsers.forEach(function(u){
+    getDayVisits(u.id,y,m,d).forEach(function(dv){dvs.push({user:u,visit:dv.visit,slot:dv.slot});});
+  });
+  var curUser=state.users.find(function(u){return u.id===state.currentUser;});
+  var canComment=CAN_COMMENT_ON_OTHERS.indexOf(curUser.code)>=0;
   var cont=document.getElementById('dayContent');
   if(!dvs.length){cont.innerHTML='<div style="color:#bbb;font-size:12px;text-align:center;padding:20px;">Sin visitas planificadas</div>';}
   else{
     cont.innerHTML='<div style="font-size:11px;color:#aaa;margin-bottom:12px;">'+dvs.length+' miembro'+(dvs.length>1?'s':'')+' del equipo en campo</div>';
-    dvs.forEach(function(dv){
+    dvs.forEach(function(dv,idx){
       var color=getUserColor(dv.user.id);
       var av=dv.user.name.split(' ').map(function(w){return w[0];}).slice(0,2).join('').toUpperCase();
       var uSt=getUserStruct(dv.user.code);
       var detail='';
       if(dv.visit.obj)detail+='<b>Objetivo:</b> '+dv.visit.obj+'<br>';
+      if(dv.visit.sit)detail+='<b>Situacion actual:</b> '+dv.visit.sit+'<br>';
+      if(dv.visit.resEsp)detail+='<b>Resultado esperado:</b> '+dv.visit.resEsp+'<br>';
+      if(dv.visit.compEq||dv.visit.compMi)detail+='<b>Compromisos:</b> '+(dv.visit.compEq?'Equipo: '+dv.visit.compEq+' ':'')+(dv.visit.compMi?'| JZ/JR: '+dv.visit.compMi:'')+'<br>';
       if(dv.visit.res)detail+='<b>Resultado:</b> '+dv.visit.res+'<br>';
       if(dv.visit.obs)detail+='<b>Obs:</b> '+dv.visit.obs;
-      cont.innerHTML+='<div class="dvc"><div class="dvc-av" style="background:'+color+';">'+av+'</div><div style="flex:1;"><div style="font-size:12px;font-weight:500;">'+dv.user.name+'</div><div style="font-size:10px;color:#aaa;">'+dv.user.code+' - '+uSt.zona+'</div><div class="dvc-agency">'+dv.visit.agency+'</div>'+(detail?'<div class="dvc-detail">'+detail+'</div>':'')+'</div></div>';
+      if(dv.visit.nextDate)detail+='<br><span style="background:#fff0f0;border:.5px solid #fca5a5;border-radius:4px;padding:2px 6px;font-size:10px;">Prox. visita: '+dv.visit.nextDate+(dv.visit.nextObj?' - '+dv.visit.nextObj:'')+'</span>';
+      var warnIcon=dv.visit.obs?'<span class="obs-warn">&#9888; Con observacion</span>':'';
+      var visitKey=dv.user.id+'-'+y+'-'+m+'-'+d+'-'+dv.slot;
+      var supCmt=state.agencyComments['VISIT-'+visitKey];
+      var supCmtHtml='';
+      if(supCmt){var who=state.users.find(function(u){return u.id===supCmt.userId;});supCmtHtml='<div class="sup-cmt-box"><b>Comentario de '+(who?who.name:'')+':</b><br>'+supCmt.text+'</div>';}
+      var commentSection='';
+      if(canComment){
+        commentSection='<button class="sup-comment-btn" onclick="toggleSupCmtForm(\''+visitKey+'\')">'+(supCmt?'Editar comentario':'Agregar comentario')+'</button>'+
+          '<div class="sup-cmt-form" id="supform-'+visitKey+'"><textarea class="finput" id="supcmttxt-'+visitKey+'" rows="2" placeholder="Escribe un comentario para esta visita...">'+(supCmt?supCmt.text:'')+'</textarea><button class="btn btn-p" style="padding:5px 12px;font-size:10px;" onclick="saveSupComment(\''+visitKey+'\')">Guardar comentario</button></div>';
+      }
+      cont.innerHTML+='<div class="dvc"><div class="dvc-av" style="background:'+color+';">'+av+'</div><div style="flex:1;"><div style="font-size:12px;font-weight:500;">'+dv.user.name+warnIcon+'</div><div style="font-size:10px;color:#aaa;">'+dv.user.code+' - '+uSt.zona+'</div><div class="dvc-agency">'+dv.visit.agency+'</div>'+(detail?'<div class="dvc-detail">'+detail+'</div>':'')+supCmtHtml+commentSection+'</div></div>';
     });
   }
   document.getElementById('dayOverlay').classList.remove('hidden');
@@ -688,10 +766,28 @@ function renderMyCal(){
     c2.className='cal-cell'+(dow>=5?' wknd':'');
     var isT=(d===now.getDate()&&m===now.getMonth()&&y===now.getFullYear());
     var ne=document.createElement('div');ne.className='day-num'+(isT?' tod':'');ne.textContent=d;c2.appendChild(ne);
-    var key=state.currentUser+'-'+y+'-'+m+'-'+d;var v=state.visits[key];
-    if(v){var ch=document.createElement('div');ch.className='vchip';ch.textContent=v.agency;c2.appendChild(ch);agMap[v.agency]=(agMap[v.agency]||0)+1;}
-    else{var ad=document.createElement('div');ad.className='add-d';ad.textContent='+';c2.appendChild(ad);}
-    if(dow<5)(function(day){c2.onclick=function(){openVM(day);};})(d);
+    var dayVs=getDayVisits(state.currentUser,y,m,d);
+    dayVs.forEach(function(dv){
+      var ch=document.createElement('div');ch.className='vchip';
+      var prefix=dayVs.length>1?(dv.slot===0?'1. ':'2. '):'';
+      ch.textContent=prefix+dv.visit.agency;
+      ch.title='Clic para editar o eliminar';
+      ch.style.cursor='pointer';
+      (function(day,slot){ch.onclick=function(e){e.stopPropagation();openVM(day,slot);};})(d,dv.slot);
+      c2.appendChild(ch);
+      agMap[dv.visit.agency]=(agMap[dv.visit.agency]||0)+1;
+    });
+    if(dow<5){
+      var cnt=dayVs.length;
+      if(cnt<2){
+        var ad=document.createElement('div');ad.className='add-d';
+        ad.textContent=cnt===1?'+ 2da visita':'+';
+        ad.title=cnt===1?'Agregar segunda visita del dia':'Registrar visita';
+        (function(day,slotCount){ad.onclick=function(e){e.stopPropagation();openVM(day,slotCount);};})(d,cnt);
+        c2.appendChild(ad);
+      }
+      if(cnt===0){(function(day){c2.onclick=function(){openVM(day,0);};})(d);}
+    }
     body.appendChild(c2);
   }
   var entries=Object.entries(agMap).sort(function(a,b){return b[1]-a[1];});var max=entries[0]?entries[0][1]:1;
@@ -703,17 +799,20 @@ function renderMyCal(){
 }
 
 // ── VISIT MODAL ──
-function openVM(day){
+function openVM(day,slot){
   editingDay=day;
+  editingSlot=(slot===undefined)?0:parseInt(slot);
   var y=state.currentYear,m=state.currentMonth;
-  var key=state.currentUser+'-'+y+'-'+m+'-'+day;
-  var v=state.visits[key];
+  var keyNew=state.currentUser+'-'+y+'-'+m+'-'+day+'-'+editingSlot;
+  var keyOld=state.currentUser+'-'+y+'-'+m+'-'+day;
+  var v=state.visits[keyNew]||(editingSlot===0?state.visits[keyOld]:null);
   var user=state.users.find(function(u){return u.id===state.currentUser;});
   var offices=getUserOffices(user.code);
   var dn=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
   var dow=new Date(y,m,day).getDay();
-  document.getElementById('vmAgency').textContent=v?v.agency:'Nueva visita';
-  document.getElementById('vmDate').textContent=dn[dow]+' '+day+' de '+MONTHS[m]+' '+y+' - '+user.code+' ('+getUserStruct(user.code).zona+')';
+  var modalTitle=v?v.agency:(editingSlot===1?'Segunda visita del dia':'Nueva visita');
+  document.getElementById('vmAgency').textContent=modalTitle;
+  document.getElementById('vmDate').textContent=dn[dow]+' '+day+' de '+MONTHS[m]+' '+y+' - '+user.code+(editingSlot===1?' - Visita 2 de 2':'');
   // Selector de agencias: solo las de su zona primero, luego las demás
   var sel=document.getElementById('vmAgSel');
   sel.innerHTML='<option value="">- Seleccionar oficina -</option>';
@@ -729,8 +828,14 @@ function openVM(day){
     ALL_OFFICES.forEach(function(o){var op=document.createElement('option');op.value=o;op.textContent=o;if(v&&v.agency===o)op.selected=true;sel.appendChild(op);});
   }
   document.getElementById('vmObj').value=v?v.obj||'':'';
+  document.getElementById('vmSit').value=v?v.sit||'':'';
+  document.getElementById('vmResEsp').value=v?v.resEsp||'':'';
+  document.getElementById('vmCompEq').value=v?v.compEq||'':'';
+  document.getElementById('vmCompMi').value=v?v.compMi||'':'';
   document.getElementById('vmRes').value=v?v.res||'':'';
   document.getElementById('vmObs').value=v?v.obs||'':'';
+  document.getElementById('vmNextDate').value=v?v.nextDate||'':'';
+  document.getElementById('vmNextObj').value=v?v.nextObj||'':'';
   // Comments
   var ck=(v?v.agency:'')+'-'+y+'-'+m;var cmt=state.agencyComments[ck];
   var cmtDiv=document.getElementById('vmComments');cmtDiv.innerHTML='';
@@ -742,9 +847,25 @@ function openVM(day){
     mRO.innerHTML='<div class="flabel">Oficina / Agencia</div><select id="vmCmtAg" class="finput">'+ALL_OFFICES.map(function(o){return '<option value="'+o+'"'+(cmt&&cmt.agency===o?' selected':'')+'>'+o+'</option>';}).join('')+'</select><div class="flabel">Comentario para el equipo</div><textarea id="vmCmtTxt" class="finput" rows="3">'+(cmt?cmt.text:'')+'</textarea>';
     mRO.classList.remove('hidden');
   }else{mForm.classList.remove('hidden');mRO.classList.add('hidden');document.getElementById('vmSave').textContent='Guardar visita';}
-  document.getElementById('vmDel').classList.toggle('hidden',!v&&!isC);
+  document.getElementById('vmDel').classList.toggle('hidden',!v);
+  document.getElementById('vmSave').textContent=v?'Actualizar visita':'Guardar visita';
   document.getElementById('visitOverlay').classList.remove('hidden');
 }
+function toggleSupCmtForm(visitKey){
+  var f=document.getElementById('supform-'+visitKey);
+  if(f) f.classList.toggle('show');
+}
+function saveSupComment(visitKey){
+  var txt=document.getElementById('supcmttxt-'+visitKey);
+  if(!txt||!txt.value.trim()){showToast('Escribe un comentario');return;}
+  state.agencyComments['VISIT-'+visitKey]={userId:state.currentUser,text:txt.value.trim()};
+  saveState();
+  showToast('Comentario guardado');
+  var parts=visitKey.split('-');
+  var dayPart=parseInt(parts[parts.length-2]);
+  openDayModal(dayPart);
+}
+
 function closeVM(){document.getElementById('visitOverlay').classList.add('hidden');editingDay=null;}
 function saveVisit(){
   var user=state.users.find(function(u){return u.id===state.currentUser;});
@@ -757,8 +878,31 @@ function saveVisit(){
     showToast('Comentario guardado');
   }else{
     var sel=document.getElementById('vmAgSel');if(!sel.value){showToast('Selecciona una oficina');return;}
-    state.visits[state.currentUser+'-'+y+'-'+m+'-'+editingDay]={agency:sel.value,obj:document.getElementById('vmObj').value,res:document.getElementById('vmRes').value,obs:document.getElementById('vmObs').value};
-    showToast('Visita guardada');updateNotifDot();
+    var nextDateVal=document.getElementById('vmNextDate').value;
+    var nextObjVal=document.getElementById('vmNextObj').value;
+    if(editingSlot===0) delete state.visits[state.currentUser+'-'+y+'-'+m+'-'+editingDay];
+    state.visits[state.currentUser+'-'+y+'-'+m+'-'+editingDay+'-'+editingSlot]={
+      agency:sel.value,
+      obj:document.getElementById('vmObj').value,
+      sit:document.getElementById('vmSit').value,
+      resEsp:document.getElementById('vmResEsp').value,
+      compEq:document.getElementById('vmCompEq').value,
+      compMi:document.getElementById('vmCompMi').value,
+      res:document.getElementById('vmRes').value,
+      obs:document.getElementById('vmObs').value,
+      nextDate:nextDateVal,
+      nextObj:nextObjVal
+    };
+    if(nextDateVal){
+      var nd=new Date(nextDateVal+'T12:00:00');
+      var ny=nd.getFullYear();var nm=nd.getMonth();var nday=nd.getDate();
+      var nkey=state.currentUser+'-'+ny+'-'+nm+'-'+nday+'-0';
+      if(!state.visits[nkey]){
+        state.visits[nkey]={agency:sel.value,obj:nextObjVal||'Seguimiento: '+sel.value,sit:'',resEsp:'',compEq:'',compMi:'',res:'',obs:'Visita agendada automaticamente desde visita del '+editingDay+'/'+(m+1)+'/'+y,nextDate:'',nextObj:''};
+        showToast('Visita guardada y proxima visita agendada');
+      }else{showToast('Visita guardada (fecha proxima ya tenia registro)');}
+    }else{showToast('Visita guardada');}
+    updateNotifDot();
   }
   saveState();closeVM();renderCurrentTab();
 }
@@ -767,7 +911,10 @@ function deleteVisit(){
   var isC=COMMENT_ROLES.indexOf(user?user.role:'')>=0;
   var y=state.currentYear,m=state.currentMonth;
   if(isC){var a=document.getElementById('vmCmtAg');if(a)delete state.agencyComments[a.value+'-'+y+'-'+m];}
-  else delete state.visits[state.currentUser+'-'+y+'-'+m+'-'+editingDay];
+  else{
+    delete state.visits[state.currentUser+'-'+y+'-'+m+'-'+editingDay+'-'+editingSlot];
+    if(editingSlot===0) delete state.visits[state.currentUser+'-'+y+'-'+m+'-'+editingDay];
+  }
   saveState();closeVM();renderCurrentTab();updateNotifDot();showToast('Eliminado');
 }
 
@@ -775,7 +922,7 @@ function deleteVisit(){
 function renderStats(){
   var y=state.currentYear,m=state.currentMonth;var dim=new Date(y,m+1,0).getDate();
   var agMap={};var uMap={};var total=0;var active=0;var wa=0;
-  state.users.forEach(function(u){var cnt=0;for(var d=1;d<=dim;d++){var k=u.id+'-'+y+'-'+m+'-'+d;var v=state.visits[k];if(v){total++;cnt++;agMap[v.agency]=(agMap[v.agency]||0)+1;if(v.obj||v.res)wa++;}}if(cnt>0){active++;uMap[u.code]=cnt;}});
+  state.users.filter(function(u){return FIELD_CODES.indexOf(u.code)>=0;}).forEach(function(u){var cnt=0;for(var d=1;d<=dim;d++){getDayVisits(u.id,y,m,d).forEach(function(dv){var v=dv.visit;total++;cnt++;agMap[v.agency]=(agMap[v.agency]||0)+1;if(v.obj||v.res)wa++;});}if(cnt>0){active++;uMap[u.code]=cnt;}});
   document.getElementById('st1').textContent=total;document.getElementById('st2').textContent=Object.keys(agMap).length;document.getElementById('st3').textContent=active;document.getElementById('st4').textContent=wa;
   var agE=Object.entries(agMap).sort(function(a,b){return b[1]-a[1];}).slice(0,10);var mxA=agE[0]?agE[0][1]:1;
   var ac=document.getElementById('agChart');ac.innerHTML='';
@@ -793,15 +940,21 @@ function generateReport(){
   var dim=new Date(y,m+1,0).getDate();
   var dn=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
   var totalV=0;var agMap={};var wa=0;var activeU=[];
-  var userDetails=state.users.map(function(u){
+  var userDetails=state.users.filter(function(u){return FIELD_CODES.indexOf(u.code)>=0;}).map(function(u){
     var visits=[];
-    for(var d=1;d<=dim;d++){var k=u.id+'-'+y+'-'+m+'-'+d;var v=state.visits[k];if(v){visits.push(Object.assign({day:d,dow:dn[new Date(y,m,d).getDay()]},v));totalV++;agMap[v.agency]=(agMap[v.agency]||0)+1;if(v.obj||v.res)wa++;}}
+    for(var d=1;d<=dim;d++){
+      getDayVisits(u.id,y,m,d).forEach(function(dv){
+        var v=dv.visit;
+        visits.push(Object.assign({day:d,dow:dn[new Date(y,m,d).getDay()]},v));
+        totalV++;agMap[v.agency]=(agMap[v.agency]||0)+1;if(v.obj||v.res)wa++;
+      });
+    }
     if(visits.length)activeU.push(u.name);
     return Object.assign({},u,{visits:visits,zona:getUserStruct(u.code).zona});
   });
   var agE=Object.entries(agMap).sort(function(a,b){return b[1]-a[1];});
   var topAg=agE[0]?agE[0][0]:'-';
-  var pending=state.users.filter(function(u){return activeU.indexOf(u.name)<0;});
+  var pending=state.users.filter(function(u){return FIELD_CODES.indexOf(u.code)>=0&&activeU.indexOf(u.name)<0;});
 
   var html='<div class="rpt-container">';
   html+='<div class="rpt-toolbar"><span style="font-size:11px;">Vista previa</span><div style="flex:1;"></div><div class="ebtn r" onclick="printReport()">Imprimir / PDF</div></div>';
@@ -841,7 +994,7 @@ function generateReport(){
     uWA.forEach(function(u){
       var av=u.visits.filter(function(v){return v.obj||v.res||v.obs;});
       html+='<div style="margin-bottom:12px;"><div style="font-family:Exo 2,sans-serif;font-size:12px;font-weight:600;margin-bottom:6px;">'+u.name+' <span style="color:#aaa;font-weight:400;font-size:10px;">('+u.code+' - '+u.zona+')</span></div>';
-      av.forEach(function(v){html+='<div style="background:#fafafa;border:.5px solid var(--light);border-radius:6px;padding:8px 12px;margin-bottom:5px;font-size:11px;"><div style="font-weight:500;color:var(--red);margin-bottom:3px;">'+v.dow+' '+v.day+' - '+v.agency+'</div>'+(v.obj?'<div><b>Objetivo:</b> '+v.obj+'</div>':'')+(v.res?'<div><b>Resultado:</b> '+v.res+'</div>':'')+(v.obs?'<div><b>Obs:</b> '+v.obs+'</div>':'')+'</div>';});
+      av.forEach(function(v){html+='<div style="background:#fafafa;border:.5px solid var(--light);border-radius:6px;padding:8px 12px;margin-bottom:5px;font-size:11px;"><div style="font-weight:500;color:var(--red);margin-bottom:3px;">'+v.dow+' '+v.day+' - '+v.agency+'</div>'+(v.obj?'<div><b>Objetivo:</b> '+v.obj+'</div>':'')+(v.sit?'<div><b>Situacion:</b> '+v.sit+'</div>':'')+(v.resEsp?'<div><b>Resultado esperado:</b> '+v.resEsp+'</div>':'')+(v.compEq?'<div><b>Compromisos equipo:</b> '+v.compEq+'</div>':'')+(v.compMi?'<div><b>Compromisos JZ/JR:</b> '+v.compMi+'</div>':'')+(v.res?'<div><b>Resultado obtenido:</b> '+v.res+'</div>':'')+(v.obs?'<div><b>Obs:</b> '+v.obs+'</div>':'')+(v.nextDate?'<div style="margin-top:4px;"><b style="color:var(--red);">Prox. visita:</b> '+v.nextDate+(v.nextObj?' - '+v.nextObj:'')+'</div>':'')+'</div>';});
       html+='</div>';
     });
     html+='</div>';
@@ -861,7 +1014,7 @@ function printReport(){
 }
 
 // ── NOTIF ──
-function getUserVisitCount(uid,y,m){var dim=new Date(y,m+1,0).getDate();var c=0;for(var d=1;d<=dim;d++){if(state.visits[uid+'-'+y+'-'+m+'-'+d])c++;}return c;}
+function getUserVisitCount(uid,y,m){var dim=new Date(y,m+1,0).getDate();var c=0;for(var d=1;d<=dim;d++){c+=getDayVisitCount(uid,y,m,d);}return c;}
 function updateNotifDot(){var y=state.currentYear,m=state.currentMonth;var p=state.users.filter(function(u){return getUserVisitCount(u.id,y,m)===0;});document.getElementById('notifDot').style.display=p.length>0?'block':'none';}
 function toggleNotif(){
   notifOpen=!notifOpen;
@@ -900,8 +1053,16 @@ function saveUser(uid){var u=state.users.find(function(x){return x.id===uid;});i
 function exportCSV(){
   var y=state.currentYear,m=state.currentMonth;var dim=new Date(y,m+1,0).getDate();
   var dn=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
-  var csv='Usuario,Codigo,Zona,Dia,Fecha,Oficina,Objetivo,Resultado,Observacion\n';
-  state.users.forEach(function(u){for(var d=1;d<=dim;d++){var k=u.id+'-'+y+'-'+m+'-'+d;if(state.visits[k]){var v=state.visits[k];var dow=new Date(y,m,d).getDay();csv+='"'+u.name+'","'+u.code+'","'+getUserStruct(u.code).zona+'","'+d+'","'+dn[dow]+' '+d+' '+MONTHS[m]+' '+y+'","'+v.agency+'","'+(v.obj||'')+'","'+(v.res||'')+'","'+(v.obs||'')+'"\n';}}});
+  var csv='Usuario,Codigo,Zona,Dia,Fecha,Oficina,Objetivo,Situacion,ResEsperado,CompEq,CompJZ,ResObtenido,Observacion,ProxVisita,ObjProxVisita\n';
+  state.users.filter(function(u){return FIELD_CODES.indexOf(u.code)>=0;}).forEach(function(u){
+    for(var d=1;d<=dim;d++){
+      getDayVisits(u.id,y,m,d).forEach(function(dv){
+        var v=dv.visit;
+        var dow=new Date(y,m,d).getDay();
+        csv+='"'+u.name+'","'+u.code+'","'+getUserStruct(u.code).zona+'","'+d+'","'+dn[dow]+' '+d+' '+MONTHS[m]+' '+y+'","'+v.agency+'","'+(v.obj||'')+'","'+(v.sit||'')+'","'+(v.resEsp||'')+'","'+(v.compEq||'')+'","'+(v.compMi||'')+'","'+(v.res||'')+'","'+(v.obs||'')+'","'+(v.nextDate||'')+'","'+(v.nextObj||'')+'\n';
+      });
+    }
+  });
   var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='visitas_'+MONTHS[m]+'_'+y+'.csv';a.click();showToast('CSV descargado');
 }
 
